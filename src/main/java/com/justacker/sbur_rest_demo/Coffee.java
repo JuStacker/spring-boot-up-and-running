@@ -1,12 +1,16 @@
 package com.justacker.sbur_rest_demo;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class Coffee {
     private final String id;
     private String name;
 
-    public Coffee(String id, String name) {
+    @JsonCreator
+    public Coffee(@JsonProperty("id") String id,@JsonProperty("name") String name) {
         this.id = id;
         this.name = name;
     }

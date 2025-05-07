@@ -1,5 +1,7 @@
 package com.justacker.sbur_rest_demo;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/coffees")
 public class RestApiDemoController {
     private List<Coffee> coffees = new ArrayList<>();
 
@@ -20,13 +23,13 @@ public class RestApiDemoController {
     }
 
     //@RequestMapping(value = "/coffees", method = RequestMethod.GET)
-    @GetMapping("/coffees")
-    public List<Coffee> getCoffees() {
+    @GetMapping
+    List<Coffee> getCoffees() {
         return coffees;
     }
 
-    @GetMapping("/coffees/{id}")
-    public Optional<Coffee> getCoffee(@PathVariable String id) {
+    @GetMapping("/{id}")
+    Optional<Coffee> getCoffee(@PathVariable String id) {
         for (Coffee coffee : coffees) {
             if (coffee.getId().equals(id)) {
                 return Optional.of(coffee);
@@ -36,14 +39,14 @@ public class RestApiDemoController {
         return Optional.empty();
     }
 
-    @PostMapping("/coffees")
-    public Coffee postCoffee(@RequestBody Coffee coffee) {
+    @PostMapping
+    Coffee postCoffee(@RequestBody Coffee coffee) {
         coffees.add(coffee);
         return coffee;
     }
 
-    @PutMapping("/coffees/${id}")
-    public Coffee putCoffee(@PathVariable String id,@RequestBody Coffee coffee) {
+    @PutMapping("/{id}")
+    ResponseEntity<Coffee> putCoffee(@PathVariable String id, @RequestBody Coffee coffee) {
         int coffeeIndex = -1;
 
         for (Coffee c : coffees) {
@@ -53,11 +56,13 @@ public class RestApiDemoController {
             }
         }
 
-        return (coffeeIndex == -1) ? postCoffee(coffee) : coffee;
+        return (coffeeIndex == -1) ?
+                new ResponseEntity<>(postCoffee(coffee), HttpStatus.CREATED) :
+                new ResponseEntity<>(coffee, HttpStatus.OK);
     }
 
-    @DeleteMapping("/coffees/{id}")
-    public void deleteCoffee(@PathVariable String id) {
+    @DeleteMapping("/{id}")
+    void deleteCoffee(@PathVariable String id) {
         coffees.removeIf(c -> c.getId().equals(id));
     }
 }

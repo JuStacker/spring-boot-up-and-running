@@ -8,6 +8,7 @@ public class SburRestDemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SburRestDemoApplication.class, args);
+		System.out.println("http://localhost:8080");
 	}
 
 }
