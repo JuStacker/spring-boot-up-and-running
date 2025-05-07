@@ -11,7 +11,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/coffees")
 public class RestApiDemoController {
-    private List<Coffee> coffees = new ArrayList<>();
+    private final List<Coffee> coffees = new ArrayList<>();
 
     public RestApiDemoController() {
         coffees.addAll(List.of(

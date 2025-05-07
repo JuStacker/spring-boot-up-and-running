@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class Coffee {
     private final String id;
-    private String name;
+    private final String name;
 
     @JsonCreator
     public Coffee(@JsonProperty("id") String id,@JsonProperty("name") String name) {
